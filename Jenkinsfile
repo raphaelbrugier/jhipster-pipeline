@@ -33,7 +33,12 @@ node {
     }
 
     stage('frontend tests') {
-        sh "gulp test"
+        try {
+            sh "gulp test"
+        } catch(err) {
+            step([$class: 'JUnitResultArchiver', testResults: '**/target/test-results/karma/TESTS-*.xml'])
+            throw err
+        }
     }
 
     stage('packaging') {
