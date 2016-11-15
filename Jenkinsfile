@@ -23,7 +23,13 @@ node {
     }
 
     stage('backend tests') {
-        sh "./mvnw test"
+        try {
+            sh "./mvnw test"
+        } catch(err) {
+            step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
+            step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+            throw err
+        }
     }
 
     stage('frontend tests') {
