@@ -1,3 +1,14 @@
+# Goal
+
+This is a Jhipster generated application to experiment with the Jenkins pipeline
+
+## Start Jenkins
+
+    docker run -p 8080:8080 -p 50000:50000 -v  /Users/raphael/docker/jenkins/:/var/jenkins_home jenkins
+
+Then install the NodeJs plugin.
+
+
 # jhipster
 
 This application was generated using JHipster 3.10.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.10.0](https://jhipster.github.io/documentation-archive/v3.10.0).
