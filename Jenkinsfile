@@ -25,6 +25,7 @@ node {
     stage('backend tests') {
         try {
             sh "./mvnw test"
+            step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
         } catch(err) {
             step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
             step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
