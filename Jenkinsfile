@@ -26,14 +26,20 @@ node {
         try {
             sh "./mvnw test"
         } catch(err) {
-            step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
-            step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
             throw err
+        } finally {
+          step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
         }
     }
 
     stage('frontend tests') {
-        sh "gulp test"
+      try {
+          sh "gulp test"
+      } catch(err) {
+          throw err
+      } finally {
+        step([$class: 'JUnitResultArchiver', testResults: '**/target/test-results/karma/TESTS-*.xml'])
+      }
     }
 
     stage('packaging') {
