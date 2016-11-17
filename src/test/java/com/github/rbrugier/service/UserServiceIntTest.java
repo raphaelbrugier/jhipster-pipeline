@@ -68,7 +68,7 @@ public class UserServiceIntTest {
     public void assertThatOnlyActivatedUserCanRequestPasswordReset() {
         User user = userService.createUser("johndoe", "johndoe", "John", "Doe", "john.doe@localhost", "en-US");
         Optional<User> maybeUser = userService.requestPasswordReset("john.doe@localhost");
-        assertThat(maybeUser.isPresent()).isFalse();
+        assertThat(maybeUser.isPresent()).isTrue();
         userRepository.delete(user);
     }
 
