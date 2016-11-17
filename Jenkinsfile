@@ -28,7 +28,7 @@ node {
         } catch(err) {
             throw err
         } finally {
-            step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/**/TESTS-*.xml'])
+            step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/test/TESTS-*.xml'])
         }
     }
 
@@ -38,7 +38,7 @@ node {
         } catch(err) {
             throw err
         } finally {
-            step([$class: 'JUnitResultArchiver', testResults: '**/target/test-results/karma/TESTS-*.xml'])
+            step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/karma/TESTS-*.xml'])
         }
     }
 
