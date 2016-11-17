@@ -78,7 +78,7 @@ test {
     include '**/*UnitTest*'
     include '**/*IntTest*'
 
-    ignoreFailures true
+    ignoreFailures false
     reports.html.enabled = false
 }
 
@@ -86,7 +86,7 @@ test {
 task cucumberTest(type: Test) {
     include '**/CucumberTest*'
 
-    ignoreFailures true
+    ignoreFailures false
     reports.html.enabled = false
 }
 
