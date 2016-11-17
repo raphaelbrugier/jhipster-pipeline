@@ -1,14 +1,3 @@
-# Goal
-
-This is a Jhipster generated application to experiment with the Jenkins pipeline
-
-## Start Jenkins
-
-    docker run -p 8080:8080 -p 50000:50000 -v  /Users/raphael/docker/jenkins/:/var/jenkins_home jenkins
-
-Then install the NodeJs plugin.
-
-
 # jhipster
 
 This application was generated using JHipster 3.10.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.10.0](https://jhipster.github.io/documentation-archive/v3.10.0).
@@ -31,7 +20,7 @@ We use [Gulp][] as our build system. Install the Gulp command-line tool globally
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
-    ./mvnw
+    ./gradlew
     gulp
 
 Bower is used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
@@ -44,12 +33,12 @@ For further instructions on how to develop with JHipster, have a look at [Using 
 
 To optimize the jhipster application for production, run:
 
-    ./mvnw -Pprod clean package
+    ./gradlew -Pprod clean bootRepackage
 
 This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
 To ensure everything worked, run:
 
-    java -jar target/*.war
+    java -jar build/libs/*.war
 
 Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
@@ -59,7 +48,7 @@ Refer to [Using JHipster in production][] for more details.
 
 To launch your application's tests, run:
 
-    ./mvnw clean test
+    ./gradlew test
 
 ### Client tests
 
@@ -68,12 +57,12 @@ Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in
     gulp test
 
 UI end-to-end tests are powered by [Protractor][], which is built on top of WebDriverJS. They're located in `src/test/javascript/e2e`
-and can be run by starting Spring Boot in one terminal (`./mvnw spring-boot:run`) and running the tests (`gulp itest`) in a second one.
+and can be run by starting Spring Boot in one terminal (`./gradlew bootRun`) and running the tests (`gulp itest`) in a second one.
 ### Other tests
 
 Performance tests are run by [Gatling][] and written in Scala. They're located in `src/test/gatling` and can be run with:
 
-    ./mvnw gatling:execute
+    ./gradlew gatlingRun
 
 For more information, refer to the [Running tests page][].
 
@@ -91,7 +80,7 @@ To stop it and remove the container, run:
 You can also fully dockerize your application and all the services that it depends on.
 To achieve this, first build a docker image of your app by running:
 
-    ./mvnw package -Pprod docker:build
+    ./gradlew bootRepackage -Pprod buildDocker
 
 Then run:
 

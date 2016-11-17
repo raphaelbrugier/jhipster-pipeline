@@ -1,4 +1,4 @@
-// Generated on 2016-11-14 using generator-jhipster 3.10.0
+// Generated on 2016-11-17 using generator-jhipster 3.11.0
 'use strict';
 
 var gulp = require('gulp'),
@@ -167,7 +167,7 @@ gulp.task('itest', ['protractor']);
 
 gulp.task('watch', function () {
     gulp.watch('bower.json', ['install']);
-    gulp.watch(['gulpfile.js', 'pom.xml'], ['ngconstant:dev']);
+    gulp.watch(['gulpfile.js', 'build.gradle'], ['ngconstant:dev']);
     gulp.watch(config.app + 'content/css/**/*.css', ['styles']);
     gulp.watch(config.app + 'content/images/**', ['images']);
     gulp.watch(config.app + 'app/**/*.js', ['inject:app']);

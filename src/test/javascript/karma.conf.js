@@ -61,11 +61,11 @@ module.exports = function (config) {
         reporters: ['dots', 'junit', 'coverage', 'progress'],
 
         junitReporter: {
-            outputFile: '../target/test-results/karma/TESTS-results.xml'
+            outputFile: '../build/test-results/karma/TESTS-results.xml'
         },
 
         coverageReporter: {
-            dir: 'target/test-results/coverage',
+            dir: 'build/test-results/coverage',
             reporters: [
                 {type: 'lcov', subdir: 'report-lcov'}
             ]

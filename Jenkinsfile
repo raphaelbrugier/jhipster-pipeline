@@ -1,7 +1,7 @@
 node {
     // uncomment these 2 lines and edit the name 'node-4.6.0' according to what you choose in configuration
-    def nodeHome = tool name: 'node-7.1.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-    env.PATH = "${nodeHome}/bin:${env.PATH}"
+    // def nodeHome = tool name: 'node-4.6.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+    // env.PATH = "${nodeHome}/bin:${env.PATH}"
 
     stage('check tools') {
         sh "node -v"
@@ -19,30 +19,30 @@ node {
     }
 
     stage('clean') {
-        sh "./mvnw clean"
+        sh "./gradlew clean"
     }
 
     stage('backend tests') {
         try {
-            sh "./mvnw test"
+            sh "./gradlew test"
         } catch(err) {
             throw err
         } finally {
-          step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+            step([$class: 'JUnitResultArchiver', testResults: '**/target/test-results/karma/TESTS-*.xml'])
         }
     }
 
     stage('frontend tests') {
-      try {
-          sh "gulp test"
-      } catch(err) {
-          throw err
-      } finally {
-        step([$class: 'JUnitResultArchiver', testResults: '**/target/test-results/karma/TESTS-*.xml'])
-      }
+        try {
+            sh "gulp test"
+        } catch(err) {
+            throw err
+        } finally {
+            step([$class: 'JUnitResultArchiver', testResults: '**/target/test-results/karma/TESTS-*.xml'])
+        }
     }
 
     stage('packaging') {
-        sh "./mvnw package -Pprod -DskipTests"
+        sh "./gradlew bootRepackage -Pprod -x test"
     }
 }

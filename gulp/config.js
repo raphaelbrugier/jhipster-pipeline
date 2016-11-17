@@ -2,12 +2,12 @@
 
 module.exports = {
     app: 'src/main/webapp/',
-    dist: 'target/www/',
-    swaggerDist: 'target/www/swagger-ui/',
+    dist: 'build/www/',
+    swaggerDist: 'build/www/swagger-ui/',
     test: 'src/test/javascript/',
     bower: 'src/main/webapp/bower_components/',
-    tmp: 'target/tmp',
-    revManifest: 'target/tmp/rev-manifest.json',
+    tmp: 'build/tmp',
+    revManifest: 'build/tmp/rev-manifest.json',
     port: 9000,
     apiPort: 8080,
     liveReloadPort: 35729,

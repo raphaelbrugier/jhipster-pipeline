@@ -1,6 +1,6 @@
 {
   "generator-jhipster": {
-    "jhipsterVersion": "3.10.0",
+    "jhipsterVersion": "3.11.0",
     "baseName": "jhipster",
     "packageName": "com.github.rbrugier",
     "packageFolder": "com/github/rbrugier",
@@ -14,7 +14,7 @@
     "prodDatabaseType": "mysql",
     "searchEngine": false,
     "messageBroker": false,
-    "buildTool": "maven",
+    "buildTool": "gradle",
     "enableSocialSignIn": false,
     "rememberMeKey": "5bc787675a20656cd631ae296c9bbe0941732c47",
     "useSass": false,
@@ -25,6 +25,7 @@
       "protractor"
     ],
     "jhiPrefix": "jhi",
-    "enableTranslation": false
+    "enableTranslation": false,
+    "serviceDiscoveryType": false
   }
 }

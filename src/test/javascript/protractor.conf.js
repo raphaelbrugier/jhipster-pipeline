@@ -72,11 +72,11 @@ exports.config = {
 
         browser.driver.manage().window().setSize(1280, 1024);
         jasmine.getEnv().addReporter(new JasmineReporters.JUnitXmlReporter({
-            savePath: 'target/reports/e2e',
+            savePath: 'build/reports/e2e',
             consolidateAll: false
         }));
         jasmine.getEnv().addReporter(new HtmlScreenshotReporter({
-            dest: "target/reports/e2e/screenshots"
+            dest: "build/reports/e2e/screenshots"
         }));
     }
 };
