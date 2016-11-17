@@ -28,7 +28,7 @@ node {
         } catch(err) {
             throw err
         } finally {
-            step([$class: "JUnitResultArchiver", testResults: "build/**/TEST-*.xml"])
+            step([$class: "JUnitResultArchiver", testResults: "**/build/**/TEST-*.xml"])
         }
     }
 
