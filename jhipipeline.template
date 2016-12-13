@@ -303,7 +303,7 @@
         "SecurityGroupIngress" : [
           { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation"} },
           { "IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"},
-          { "IpProtocol" : "tcp", "FromPort" : "8080", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"}
+          { "IpProtocol" : "tcp", "FromPort" : "8080", "ToPort" : "8080", "CidrIp" : "0.0.0.0/0"}
         ]
       }
     },
@@ -324,7 +324,19 @@
           "DeviceIndex"              : "0",
           "DeleteOnTermination"      : "true",
           "SubnetId"                 : { "Ref" : "APP"}
-        }]
+        }],
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+            "#!/bin/bash -xe\n",
+            "yum update -y\n",
+            "yum install -y java-1.8.0\n",
+            "yum remove -y java-1.7.0-openjdk\n",
+            "sed -i \"s/localdomain/localdomain `hostname`/\" /etc/hosts\n",
+
+            "/opt/aws/bin/cfn-signal -e $? ",
+            "         --stack ", { "Ref" : "AWS::StackName" },
+            "         --resource WebServerInstance ",
+            "         --region ", { "Ref" : "AWS::Region" }, "\n"
+        ]]}}
       }
     },
 
@@ -335,7 +347,7 @@
         "GroupDescription": "Open database for access",
         "SecurityGroupIngress" : [
           { "IpProtocol" : "tcp", "FromPort" : "3306", "ToPort" : "3306", "SourceSecurityGroupId" : { "Ref" : "WebServerSecurityGroup" } },
-          { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation"} }
+          { "IpProtocol" : "tcp", "FromPort" : "3306", "ToPort" : "3306", "CidrIp" : { "Ref" : "SSHLocation"} }
         ]
       }
     },
