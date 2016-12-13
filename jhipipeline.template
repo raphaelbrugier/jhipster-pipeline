@@ -308,12 +308,48 @@
       }
     },
 
+      "WebappRole": {
+          "Type": "AWS::IAM::Role",
+          "Properties": {
+              "AssumeRolePolicyDocument": {
+                  "Statement": [{
+                      "Effect": "Allow",
+                      "Principal": { "Service": ["ec2.amazonaws.com" ] },
+                      "Action": [ "sts:AssumeRole" ]
+                  }]},
+              "Path": "/"
+          }
+      },
+
+      "WebappRolePolicy": {
+          "Type": "AWS::IAM::Policy",
+          "Properties": {
+              "PolicyName": "WebappPolicy",
+              "PolicyDocument": {
+                  "Statement": [{
+                          "Effect": "Allow",
+                          "Action": ["s3:*", "rds:*"],
+                          "Resource": "*"
+                      }]
+              },
+              "Roles": [{ "Ref": "WebappRole"}]
+          }
+      },
+
+      "WebAppInstanceProfile": {
+          "Type": "AWS::IAM::InstanceProfile",
+          "Properties": {
+              "Path": "/",
+              "Roles": [{ "Ref": "WebappRole" }]
+          }
+      },
+
     "WebServerInstance" : {
       "Type" : "AWS::EC2::Instance",
       "DependsOn" : "AttachGateway",
       "Properties" : {
         "InstanceType" : { "Ref" : "InstanceType" },
-        "IamInstanceProfile": "jhiapp",
+        "IamInstanceProfile": { "Ref": "WebAppInstanceProfile" },
         "KeyName" : { "Ref" : "KeyName" },
         "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
           { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
@@ -323,7 +359,7 @@
           "AssociatePublicIpAddress" : "true",
           "DeviceIndex"              : "0",
           "DeleteOnTermination"      : "true",
-          "SubnetId"                 : { "Ref" : "APP"}
+          "SubnetId"                 : { "Ref" : "APP" }
         }],
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
             "#!/bin/bash -xe\n",
