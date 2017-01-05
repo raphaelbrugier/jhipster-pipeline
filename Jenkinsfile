@@ -1,5 +1,4 @@
 node {
-    // uncomment these 2 lines and edit the name 'node-4.6.0' according to what you choose in configuration
     def nodeHome = tool name: 'node-7.1.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
     env.PATH = "${nodeHome}/bin:${env.PATH}"
 
@@ -8,6 +7,7 @@ node {
         sh "npm -v"
         sh "bower -v"
         sh "gulp -v"
+        sh "aws --version"
     }
 
     stage('checkout') {
@@ -44,5 +44,13 @@ node {
 
     stage('packaging') {
         sh "./mvnw package -Pprod -DskipTests"
+    }
+
+    stage('publishing') {
+        sh "aws s3 cp target/jhipster-0.0.1-SNAPSHOT.war  s3://jhipipeline/jhipster-0.0.1-SNAPSHOT.war"
+    }
+
+    stage('deploying') {
+        sh "ssh -i ~/.ssh/awsperso.pem ec2-user@34.195.192.209 'aws s3 cp s3://jhipipeline/jhipster-0.0.1-SNAPSHOT.war .; chmod +x jhipster-0.0.1-SNAPSHOT.war'"
     }
 }
