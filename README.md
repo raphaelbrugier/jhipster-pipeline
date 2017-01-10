@@ -1,6 +1,6 @@
 # Goal
 
-This is a Jhipster generated application to experiment with the Jenkins pipeline
+This is a JHipster generated application to experiment with the Jenkins pipeline
 
 ## Start Jenkins
 

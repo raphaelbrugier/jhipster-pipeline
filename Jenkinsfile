@@ -1,3 +1,5 @@
+#!groovy​
+
 node {
     def nodeHome = tool name: 'node-7.1.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
     env.PATH = "${nodeHome}/bin:${env.PATH}"
@@ -51,6 +53,8 @@ node {
     }
 
     stage('deploying') {
-        sh "ssh -i ~/.ssh/awsperso.pem ec2-user@34.195.192.209 'aws s3 cp s3://jhipipeline/jhipster-0.0.1-SNAPSHOT.war .; chmod +x jhipster-0.0.1-SNAPSHOT.war'"
+        sh "ssh -oStrictHostKeyChecking=no -i ~/.ssh/awsperso.pem ec2-user@$AWS_PROD_INSTANCE_IP 'aws s3 cp s3://jhipipeline/jhipster-0.0.1-SNAPSHOT.war .; chmod +x jhipster-0.0.1-SNAPSHOT.war'"
+        sh """ssh -oStrictHostKeyChecking=no -i ~/.ssh/awsperso.pem ec2-user@$AWS_PROD_INSTANCE_IP 'ps -aux | grep -i java | grep -v grep | cut -d' ' -f2 | xargs kill -9'"""
+        sh "ssh -oStrictHostKeyChecking=no -i ~/.ssh/awsperso.pem ec2-user@$AWS_PROD_INSTANCE_IP './jhipster-0.0.1-SNAPSHOT.war --spring.profiles.active=prod --spring.datasource.password=$AWS_PROD_DATABASE_PASSWORD --spring.datasource.username=jhipipe --spring.datasource.url=jdbc:mysql://$AWS_PROD_DATABASE_URL:3306/jhipipedbprod?useUnicode=true&characterEncoding=utf8&useSSL=false &'"
     }
 }
